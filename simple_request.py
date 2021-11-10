@@ -11,139 +11,136 @@ Data = saral_url.json()
 with open("data.json","w") as file:
     json.dump(Data,file,indent=4)
 
-# name_list=[]
-# def saral_data():
-#     serial_number=1
-#     for index in Data["availableCourses"]:
-#         print(serial_number,"-",index["name"],index["id"])
-#         name_list.append(index["name"])
-#         serial_number+=1
-# saral_data()
-# # taking user input to print all topic of one specific courses:
-# topic=int(input("Enter the topic number:"))
+name_list=[]
+def saral_data():
+    serial_number=1
+    for index in Data["availableCourses"]:
+        print(serial_number,"-",index["name"],index["id"])
+        name_list.append(index["name"])
+        serial_number+=1
+saral_data()
+# taking user input to print all topic of one specific courses:
+topic=int(input("Enter the topic number:"))
 
-# next_or_previous=input("Enter whether you want to go next or previous(n/p):")
-# serial_number=topic
-# print(name_list[serial_number-1])
+next_or_previous=input("Enter whether you want to go next or previous(n/p):")
+serial_number=topic
+print(name_list[serial_number-1])
 
-# # if user input is previous then the below code will be executed :
+# if user input is previous then the below code will be executed :
 
-# if next_or_previous=="p":
-#     saral_data()
-#     topic=int(input("Enter the topic number:"))
+if next_or_previous=="p":
+    saral_data()
+    topic=int(input("Enter the topic number:"))
 
-# # calling parents Api:
+# calling parents Api:
 
-# parent_url=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercises")
-# # converting parent data into Json:
+parent_url=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercises")
+# converting parent data into Json:
 
-# data=parent_url.json()
+data=parent_url.json()
 
-# # pushing data into json file:
+# pushing data into json file:
 
-# with open("parent.json","w") as file:
-#     json.dump(data,file,indent=4)
+with open("parent.json","w") as file:
+    json.dump(data,file,indent=4)
 
-# topic_list=[]
-# def parent_data():
-#     serial_no=1
-#     serial_no1=1
-#     #for printing the details of the specific courses:
+topic_list=[]
+def parent_data():
+    serial_no=1
+    serial_no1=1
+    #for printing the details of the specific courses:
 
-#     for index1 in data["data"]:
-#         if len(index1["childExercises"])==0:
-#             print("   ",serial_no,".",index1["name"])
-#             topic_list.append(index1["name"])
-#             print("           ",serial_no1,".",index1["slug"])
-#             serial_no+=1
-#         else:
-#             serial_no2=1
-#             print("   ",serial_no,".",index1["name"])
-#             topic_list.append(index1["name"])
-#             for questions in index1["childExercises"]:
-#                 print("         ",serial_no2,".",questions["name"])
-#                 serial_no2+=1
-#             serial_no+=1
-# parent_data()
+    for index1 in data["data"]:
+        if len(index1["childExercises"])==0:
+            print("   ",serial_no,".",index1["name"])
+            topic_list.append(index1["name"])
+            print("           ",serial_no1,".",index1["slug"])
+            serial_no+=1
+        else:
+            serial_no2=1
+            print("   ",serial_no,".",index1["name"])
+            topic_list.append(index1["name"])
+            for questions in index1["childExercises"]:
+                print("         ",serial_no2,".",questions["name"])
+                serial_no2+=1
+            serial_no+=1
+parent_data()
 
-# # taking user input for next or previous:
+# taking user input for next or previous:
 
-# next_or_previous=input("Enter whether you want to go next or previous(n/p):")
+next_or_previous=input("Enter whether you want to go next or previous(n/p):")
 
-# # if user input is previous then the below code will be executed :
-# serial_no=1
-# serial_no1=1
-# if next_or_previous=="p":
-#     parent_data()
+# if user input is previous then the below code will be executed :
+serial_no=1
+serial_no1=1
+if next_or_previous=="p":
+    parent_data()
 
-# # taking user input asking for specific parent course:
+# taking user input asking for specific parent course:
 
-# slug=int(input("Enter the topic number:"))
-# question_list=[]
-# slug_list=[]
-# print("     ",slug,".",topic_list[slug-1])
+slug=int(input("Enter the topic number:"))
+question_list=[]
+slug_list=[]
+print("     ",slug,".",topic_list[slug-1])
 
-# #code for slug having childExercise(More than one question):
+#code for slug having childExercise(More than one question):
 
-# for index1 in data["data"][slug-1]["childExercises"]:
-#     s_num=1
-#     for index1 in data["data"][slug-1]["childExercises"]:
-#         print("           ",s_num,".",index1["name"])
-#         question_list.append(index1["name"])
-#         s_num+=1
+for index1 in data["data"][slug-1]["childExercises"]:
+    s_num=1
+    for index1 in data["data"][slug-1]["childExercises"]:
+        print("           ",s_num,".",index1["name"])
+        question_list.append(index1["name"])
+        s_num+=1
 
-#     que=int(input("Enter question number:")) 
-#     w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que-1]["slug"]))
-#     DATA=w.json()
-#     with open("question.json","w") as f:
-#         json.dump(DATA,f,indent=4)
-#         print(DATA["content"])
-#         break
+    que=int(input("Enter question number:")) 
+    w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que-1]["slug"]))
+    DATA=w.json()
+    with open("question.json","w") as f:
+        json.dump(DATA,f,indent=4)
+        print(DATA["content"])
+        break
 
-# for i in range(len(question_list)):
-#     a=input("Enter whether you want to go next or previous(n/p):")
-#     if a=="n":
-#         if que==len(question_list): 
-#             print("Next page.")
-#             break
-#         else:
-#             w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que]["slug"]))
-#             DATA=w.json()
-#             with open("question.json","w") as f:
-#                 json.dump(DATA,f,indent=4)
-#                 print(DATA["content"])
-#                 que=que+1
-#     if a=="p":
-#         if que==len(question_list):
-#             print("No more questions")
-#             break
-#         else:
-#             w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que-2]["slug"]))
-#             DATA=w.json()
-#             with open("question.json","w") as f:
-#                 json.dump(DATA,f,indent=4)
-#                 print(DATA["content"])
-#                 que=que-1      
-# # code for slug having no childExercise:
-# else:
-#     s_no=1
-#     print("           ",s_no,".",data["data"][slug-1]["slug"])
-#     slug_list.append(data["data"][slug-1]["slug"])
+for i in range(len(question_list)):
+    a=input("Enter whether you want to go next or previous(n/p):")
+    if a=="n":
+        if que==len(question_list): 
+            print("Next page.")
+            break
+        else:
+            w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que]["slug"]))
+            DATA=w.json()
+            with open("question.json","w") as f:
+                json.dump(DATA,f,indent=4)
+                print(DATA["content"])
+                que=que+1
+    if a=="p":
+        if que==len(question_list):
+            print("No more questions")
+            break
+        else:
+            w=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["childExercises"][que-2]["slug"]))
+            DATA=w.json()
+            with open("question.json","w") as f:
+                json.dump(DATA,f,indent=4)
+                print(DATA["content"])
+                que=que-1      
+# code for slug having no childExercise:
+else:
+    s_no=1
+    print("           ",s_no,".",data["data"][slug-1]["slug"])
+    slug_list.append(data["data"][slug-1]["slug"])
 
-#     que=int(input("Enter question number:"))
-#     v=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["slug"]))
-#     d=v.json()
-#     with open("questions.json","w") as f:
-#         json.dump(d,f,indent=4)
-#         print(d["content"])
-#     for i in range(len(slug_list)):
-#         a=input("Enter whether you want to go next or previous:(n/p)")
-#         if a=="n":
-#             print("Next page.")
-#             break
-#         if a=="p":
-#             print("No more questions.")
-#             break
-
-
-
+    que=int(input("Enter question number:"))
+    v=requests.get("http://saral.navgurukul.org/api/courses/"+str(Data["availableCourses"][topic-1]["id"])+"/exercise/getBySlug?slug="+str(data["data"][slug-1]["slug"]))
+    d=v.json()
+    with open("questions.json","w") as f:
+        json.dump(d,f,indent=4)
+        print(d["content"])
+    for i in range(len(slug_list)):
+        a=input("Enter whether you want to go next or previous:(n/p)")
+        if a=="n":
+            print("Next page.")
+            break
+        if a=="p":
+            print("No more questions.")
+            break
